@@ -8,12 +8,15 @@ import java.math.BigDecimal;
 public class CountryLanguage {
 
     @EmbeddedId
-    CountryLanguageId id;
+    private CountryLanguageId id;
 
     @ManyToOne
     @MapsId("countryCode") // Mapea la clave compuesta con el campo countryCode
     @JoinColumn(name = "CountryCode")
     private Country country;
+
+    @Column(name = "Language")
+    private String language;
 
     @Enumerated(EnumType.STRING)
     private IsOfficial isOfficial;
@@ -24,11 +27,20 @@ public class CountryLanguage {
     public CountryLanguage() {
     }
 
-    public CountryLanguage(CountryLanguageId id, Country country, IsOfficial isOfficial, BigDecimal percentage) {
+    public CountryLanguage(CountryLanguageId id, Country country, String language, IsOfficial isOfficial, BigDecimal percentage) {
         this.id = id;
         this.country = country;
         this.isOfficial = isOfficial;
         this.percentage = percentage;
+        this.language = language;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public CountryLanguageId getId() {
@@ -66,7 +78,7 @@ public class CountryLanguage {
     @Override
     public String toString() {
         return "CountryLanguage{" +
-                 id +
+                id +
                 ", isOfficial=" + isOfficial +
                 ", percentage=" + percentage +
                 '}';

@@ -7,20 +7,20 @@ public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
     @Column(length = 35, nullable = false)
-    String name;
+    private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CountryCode")
-    Country country;
+    private Country country;
 
     @Column(length = 20, nullable = false)
-    String district;
+    private String district;
 
     @Column(nullable = false)
-    int population;
+    private int population;
 
     public City() {
     }

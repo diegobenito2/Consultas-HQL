@@ -11,48 +11,48 @@ public class Country {
 
     @Id
     @Column(length = 3, name = "Code")
-    String code;
+    private String code;
 
     @Column(length = 52, nullable = false)
-    String name;
+    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    Continent continent;
+    private Continent continent;
 
     @Column(length = 26, nullable = false)
-    String region;
+    private String region;
 
     @Column(scale = 10,precision = 2,nullable = false)
-    BigDecimal surfaceArea;
+    private BigDecimal surfaceArea;
 
-    short indepYear;
+    private Short indepYear;
 
     @Column(nullable = false)
-    int population;
+    private int population;
 
     @Column(scale = 3,precision = 1)
-    BigDecimal lifeExpectancy;
+    private BigDecimal lifeExpectancy;
 
     @Column(scale = 10,precision = 2)
-    BigDecimal gnp;
+    private BigDecimal gnp;
 
     @Column(scale = 10,precision = 2)
-    BigDecimal gnpold;
+    private BigDecimal gnpold;
 
     @Column(length = 45, nullable = false)
-    String localName;
+    private String localName;
 
     @Column(length = 45, nullable = false)
-    String governmentForm;
+    private String governmentForm;
 
     @Column(length = 60)
-    String headOfState;
+    private String headOfState;
 
-    int capital;
+    private Integer capital;
 
     @Column(length = 2,nullable = false)
-    String code2;
+    private String code2;
 
     @OneToMany(mappedBy = "country")
     private Set<CountryLanguage> languages = new HashSet<CountryLanguage>();
@@ -60,7 +60,7 @@ public class Country {
     public Country() {
     }
 
-    public Country(String code, String name, Continent continent, String region, BigDecimal surfaceArea, short indepYear, int population, BigDecimal lifeExpectancy, BigDecimal gnp, BigDecimal gnpold, String localName, String governmentForm, String headOfState, int capital, String code2) {
+    public Country(String code, String name, Continent continent, String region, BigDecimal surfaceArea, Short indepYear, int population, BigDecimal lifeExpectancy, BigDecimal gnp, BigDecimal gnpold, String localName, String governmentForm, String headOfState, Integer capital, String code2) {
         this.code = code;
         this.name = name;
         this.continent = continent;
@@ -118,7 +118,7 @@ public class Country {
         this.surfaceArea = surfaceArea;
     }
 
-    public short getIndepYear() {
+    public Short getIndepYear() {
         return indepYear;
     }
 
@@ -182,11 +182,11 @@ public class Country {
         this.headOfState = headOfState;
     }
 
-    public int getCapital() {
+    public Integer getCapital() {
         return capital;
     }
 
-    public void setCapital(int capital) {
+    public void setCapital(Integer capital) {
         this.capital = capital;
     }
 
