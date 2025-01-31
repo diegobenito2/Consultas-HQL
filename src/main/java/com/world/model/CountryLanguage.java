@@ -1,10 +1,5 @@
-package org.example.Model;
+package com.world.model;
 
-
-
-import com.world.model.Country;
-import com.world.model.CountryLanguageId;
-import com.world.model.IsOfficial;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
