@@ -1,9 +1,12 @@
 import com.world.HibernateUtil;
+import com.world.model.City;
 import com.world.model.Continent;
 import com.world.model.Country;
+import com.world.model.CountryLanguage;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Consultas {
@@ -59,7 +62,7 @@ public class Consultas {
         if (codigoPais != null) {
             // Ahora obtener las ciudades relacionadas con ese país
             List<String> listaNombresCiudades = s.createQuery(
-                            "select c.name FROM City c WHERE c.country.code = :codigoPais", String.class)
+                            "FROM City c WHERE c.country.code = :codigoPais", String.class)
                     .setParameter("codigoPais", codigoPais)
                     .list();
 
@@ -84,12 +87,12 @@ public class Consultas {
                 .uniqueResult();
         if (codigoFrancia != null) {
             // Ahora obtener las ciudades relacionadas con ese país
-            List<String> listaIdiomas = s.createQuery(
-                    "select cl.language FROM CountryLanguage cl  WHERE cl.id.countryCode = :codigoFrancia", String.class).setParameter("codigoFrancia",codigoFrancia).list();
+            List<CountryLanguage> listaIdiomas = s.createQuery(
+                    "FROM CountryLanguage cl  WHERE cl.id.countryCode = :codigoFrancia", CountryLanguage.class).setParameter("codigoFrancia",codigoFrancia).list();
 
 
             int i = 1;
-            for (String c : listaIdiomas) {
+            for (CountryLanguage c : listaIdiomas) {
                 System.out.println("Idioma "+i + ": " + c);
                 i++;
             }
@@ -105,7 +108,12 @@ public class Consultas {
     public void consulta5() {
         Session s = HibernateUtil.getSessionFactory().openSession();
         System.out.println("Consulta 2.1 - Muestra el nombre de cada ciudad junto con el nombre de su país:");
-        
+        List<Object[]> listaNombres= s.createQuery("SELECT ci.name, co.name From City ci inner join ci.country co").list();
+        for (Object[] nombre : listaNombres){
+            String nombreCiudad = (String) nombre[0];
+            String nombrePais= (String) nombre[1];
+            System.out.println("Ciudad: " + nombreCiudad + " Nombre Pais: " + nombrePais);
+        }
         s.close();
     }
 
@@ -113,7 +121,12 @@ public class Consultas {
     public void consulta6() {
         Session s = HibernateUtil.getSessionFactory().openSession();
         System.out.println("Consulta 2.2 - Obtén los países junto con su idioma oficial:");
-        // Tu lógica aquí
+        List<Object[]> resultado = s.createQuery("select co,cl from CountryLanguage cl inner join cl.country co where cl.isOfficial = 'T'").list();
+        for (Object[] r : resultado){
+            Country country= (Country) r[0];
+            CountryLanguage language = (CountryLanguage) r[1];
+            System.out.println("Pais: "+ country.toString()+ " " + language.toString() );
+        }
         s.close();
     }
 
@@ -121,15 +134,26 @@ public class Consultas {
     public void consulta7() {
         Session s = HibernateUtil.getSessionFactory().openSession();
         System.out.println("Consulta 2.3 - Lista las ciudades de Europa con más de 1 millón de habitantes:");
-        // Tu lógica aquí
+        List<City> listaCiudades = s.createQuery("select ci from City ci join ci.country co where co.continent = 'Europe'  AND ci.population > 1000000 ",City.class).list();
+        int i=0;
+        for (City c : listaCiudades){
+            i++;
+            System.out.println(i+" "+c);
+        }
         s.close();
     }
 
     @Test
     public void consulta8() {
         Session s = HibernateUtil.getSessionFactory().openSession();
-        System.out.println("Consulta 2.4 - Muestra los países junto con su idioma y su población total:");
-        // Tu lógica aquí
+        System.out.println("Consulta 2.4 - Muestra los idiomas junto a los paises donde se hablan y el número de habitantes que habla cada idioma en cada país.");
+        List<Object[]> resultado = s.createQuery(" select cl.language , co.name, (cl.percentage*co.population)/100 from CountryLanguage cl inner join cl.country co ",Object[].class).list();
+        for (Object[] r : resultado){
+            String idioma = (String) r[0];
+            String pais = (String) r[1];
+            BigDecimal hablanteIdioma = (BigDecimal) r[2];
+            System.out.println("Idioma : "+idioma+" || Pais:"+pais+" || Población que habla ese idioma:"+hablanteIdioma);
+        }
         s.close();
     }
 
