@@ -14,7 +14,7 @@ Este proyecto contiene una serie de consultas SQL agrupadas en distintas categor
 - **Muestra el nombre de cada ciudad junto con el nombre de su país.**
 - **Obtén los países junto con su idioma oficial.**
 - **Lista las ciudades de Europa con más de 1 millón de habitantes.**
-- **Muestra los países junto con su idioma y su población total.**
+- **Muestra los idiomas junto a los paises donde se hablan y el número de habitantes que habla cada idioma en cada país.**
 
 ## 3️⃣ Consultas con Funciones de Agregación y Agrupación
 
